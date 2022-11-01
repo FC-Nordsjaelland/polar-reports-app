@@ -239,36 +239,67 @@ if authorization_code:
         col1.pyplot(volume_table)
         pdf.savefig(bbox_inches='tight')
 
-    with open(f"Weekly Physical Report {date_range[0]} to {date_range[1]}.pdf", "rb") as report:
-        st.download_button("Download Report", report, f"Weekly Physical Report {date_range[0]} to {date_range[1]}.pdf")
+    with open(f"Weekly Physical Report {date1} to {date2}.pdf", "rb") as report:
+        st.download_button("Download Report", report, f"Weekly Physical Report {date1} to {date2}.pdf")
         
-    ## ----- ALTAIR PLOT ------ ##
-    st.write("### **Weekly Physical Exploration**")
-    alt_col1, alt_col2 = st.columns(2)
-    df_altair_plot = df_plot_clean_previous.reset_index()
-    # Set colors
-    domain = list(colors.keys())
-    range_  = list(colors.values())
+
+    if account == 'M':
+        ## ----- ALTAIR PLOT ------ ##
+        st.write("### **Weekly Physical Exploration**")
+        alt_col1, alt_col2 = st.columns(2)
+        df_altair_plot = df_plot_clean_previous.reset_index()
+        # Set colors
+        domain = list(colors.keys())
+        range_  = list(colors.values())
+        
+        # Volume
+        altair_weekly_volume = plot_altair_scatter(df_altair_plot, title="Weekly Volume Load",
+                                                x="Total Distance", y="HSR distance (>20km/h)",
+                                                tooltip=["athlete_name:N", "Total Distance:Q", "HSR distance (>20km/h):Q"],
+                                                color='position_name:N', label="athlete_name:N",
+                                                width=600, height=600, size=200)
+        alt_col1.altair_chart(altair_weekly_volume)
+        # Intensity
+        altair_intensity_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
+                                                    x="Sprint distance (>25km/h):Q", y="Sprint efforts (>25km/h):Q",
+                                                    tooltip=["athlete_name:N", "Sprint distance (>25km/h):Q", "Sprint efforts (>25km/h):Q", "Max Speed (km/h):Q"],
+                                                    color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
+        alt_col2.altair_chart(altair_intensity_plot)
+        # Mechanical
+        altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
+                                                    x="Acc (>3m/s):Q", y="Dec (>-3m/s):Q",
+                                                    tooltip=["athlete_name:N", "Acc (>3m/s):Q", "Dec (>-3m/s):Q", "Max Speed (km/h):Q"],
+                                                    color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
+        alt_col1.altair_chart(altair_mechanical_plot)
     
-    # Volume
-    altair_weekly_volume = plot_altair_scatter(df_altair_plot, title="Weekly Voume Load",
-                                               x="Total Distance", y="HSR distance (>20km/h)",
-                                               tooltip=["athlete_name:N", "Total Distance:Q", "HSR distance (>20km/h):Q"],
-                                               color='position_name:N', label="athlete_name:N",
-                                               width=600, height=600, size=200)
-    alt_col1.altair_chart(altair_weekly_volume)
-    # Intensity
-    altair_intensity_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
-                                                x="Sprint distance (>25km/h):Q", y="Sprint efforts (>25km/h):Q",
-                                                tooltip=["athlete_name:N", "Sprint distance (>25km/h):Q", "Sprint efforts (>25km/h):Q", "Max Speed (km/h):Q"],
-                                                color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
-    alt_col2.altair_chart(altair_intensity_plot)
-    # Mechanical
-    altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
-                                                 x="Acc (>3m/s):Q", y="Dec (>-3m/s):Q",
-                                                 tooltip=["athlete_name:N", "Acc (>3m/s):Q", "Dec (>-3m/s):Q", "Max Speed (km/h):Q"],
-                                                 color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
-    alt_col1.altair_chart(altair_mechanical_plot)
+    elif account == 'W':
+        ## ----- ALTAIR PLOT ------ ##
+        st.write("### **Weekly Physical Exploration**")
+        alt_col1, alt_col2 = st.columns(2)
+        df_altair_plot = df_plot_clean_previous.reset_index()
+        # Set colors
+        domain = list(colors.keys())
+        range_  = list(colors.values())
+        
+        # Volume
+        altair_weekly_volume = plot_altair_scatter(df_altair_plot, title="Weekly Volume Load",
+                                                x="Total Distance", y="HSR distance (>19km/h)",
+                                                tooltip=["athlete_name:N", "Total Distance:Q", "HSR distance (>19km/h):Q"],
+                                                color='position_name:N', label="athlete_name:N",
+                                                width=600, height=600, size=200)
+        alt_col1.altair_chart(altair_weekly_volume)
+        # Intensity
+        altair_intensity_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
+                                                    x="Sprint distance (>22.5km/h):Q", y="Sprint efforts (>22.5km/h):Q",
+                                                    tooltip=["athlete_name:N", "Sprint distance (>22.5km/h):Q", "Sprint efforts (>22.5km/h):Q", "Max Speed (km/h):Q"],
+                                                    color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
+        alt_col2.altair_chart(altair_intensity_plot)
+        # Mechanical
+        altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
+                                                    x="Acc (>3m/s):Q", y="Dec (>-3m/s):Q",
+                                                    tooltip=["athlete_name:N", "Acc (>3m/s):Q", "Dec (>-3m/s):Q", "Max Speed (km/h):Q"],
+                                                    color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
+        alt_col1.altair_chart(altair_mechanical_plot)
 
 
 else:
