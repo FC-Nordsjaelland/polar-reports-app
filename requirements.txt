@@ -6,3 +6,4 @@ pandas==1.4.2
 numpy==1.22.4
 polar_api==0.0.8
 kitbag==0.0.5
+isodate==0.6.1
