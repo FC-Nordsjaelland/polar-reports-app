@@ -27,3 +27,5 @@ st.sidebar.markdown("## 👤 Individual Report")
 # # st.write(r.history[0].url)
 # # webbrowser.open(r.history[0].url, new=2)
 # link = r.history[0].url
+
+#tests
