@@ -254,8 +254,8 @@ if authorization_code:
         
         # Volume
         altair_weekly_volume = plot_altair_scatter(df_altair_plot, title="Weekly Volume Load",
-                                                x="Total Distance:Q", y="HSR distance (>20km/h):Q",
-                                                tooltip=["athlete_name:N", "Total Distance:Q", "HSR distance (>20km/h):Q"],
+                                                x="Total Distance (km):Q", y="HSR distance (>20km/h):Q",
+                                                tooltip=["athlete_name:N", "Total Distance (km):Q", "HSR distance (>20km/h):Q"],
                                                 color='position_name:N', label="athlete_name:N",
                                                 width=600, height=600, size=200)
         alt_col1.altair_chart(altair_weekly_volume)
@@ -283,8 +283,8 @@ if authorization_code:
         
         # Volume
         altair_weekly_volume = plot_altair_scatter(df_altair_plot, title="Weekly Volume Load",
-                                                x="Total Distance", y="HSR distance (>19km/h)",
-                                                tooltip=["athlete_name:N", "Total Distance:Q", "HSR distance (>19km/h):Q"],
+                                                x="Total Distance (km)", y="HSR distance (>19km/h)",
+                                                tooltip=["athlete_name:N", "Total Distance (km):Q", "HSR distance (>19km/h):Q"],
                                                 color='position_name:N', label="athlete_name:N",
                                                 width=600, height=600, size=200)
         alt_col1.altair_chart(altair_weekly_volume)
