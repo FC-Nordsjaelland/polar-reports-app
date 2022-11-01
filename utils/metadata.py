@@ -109,3 +109,7 @@ weekly_daily_plot_parameters = ["Average Duration (Session)",
                                 "Acceleration Average Efforts (Session)", 
                                 "Deceleration Average Efforts (Session)", 
                                 "Average Heart rate Duration in Red Zone (Session)"]
+
+
+colors = {"Centre Back": "#4285F4", "Full Back": "#34A853",
+          "Midfielder": "#FBBC04", "Attacker": "#EA4335"}
