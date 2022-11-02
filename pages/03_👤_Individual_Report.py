@@ -8,6 +8,7 @@ from polar_api import POLAR_API
 st.set_page_config(page_title="Individual Report", page_icon="👤", layout="wide")
 st.sidebar.markdown("## 👤 Individual Report")
 
+st.markdown("## 👀 Coming soon")
 # client_id = st.secrets['client_id']
 # client_secret = st.secrets['client_secret']
 
