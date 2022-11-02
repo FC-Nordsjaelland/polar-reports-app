@@ -334,24 +334,24 @@ if authorization_code and submitted:
                                                     color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
             alt_col1.altair_chart(altair_volume_plot)
 
-            # Intensity
-            altair_intensity_plot = plot_altair_scatter(df_altair_plot, title="Daily Intensity Load",
-                                                        x="Sprint distance (>22.5km/h):Q", y="Sprint efforts (>22.5km/h):Q",
-                                                        tooltip=["athlete_name:N", "Sprint distance (>22.5km/h):Q", "Sprint efforts (>22.5km/h):Q", "Max Speed (km/h):Q"],
-                                                        color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
-            alt_col2.altair_chart(altair_intensity_plot)
-            # Mechanical
-            altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Daily Mechanical Load",
-                                                        x="Acc (>2.7m/s):Q", y="Dec (>-2.7m/s):Q",
-                                                        tooltip=["athlete_name:N", "Acc (>2.7m/s):Q", "Dec (>-2.7m/s):Q", "Max Speed (km/h):Q"],
-                                                        color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
-            alt_col2.altair_chart(altair_mechanical_plot)
-            #Internal
-            altair_internal_plot = plot_altair_scatter(df_altair_plot, title="Daily Internal Load",
-                                                        x="Sprint distance (>22.5km/h):Q", y="HR (>85%):Q",
-                                                        tooltip=["athlete_name:N", "Sprint distance (>22.5km/h):Q", "Sprint efforts (>22.5km/h):Q", "Max Speed (km/h):Q"],
-                                                        color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
-            alt_col2.altair_chart(altair_internal_plot)
+            # # Intensity
+            # altair_intensity_plot = plot_altair_scatter(df_altair_plot, title="Daily Intensity Load",
+            #                                             x="Sprint distance (>22.5km/h):Q", y="Sprint efforts (>22.5km/h):Q",
+            #                                             tooltip=["athlete_name:N", "Sprint distance (>22.5km/h):Q", "Sprint efforts (>22.5km/h):Q", "Max Speed (km/h):Q"],
+            #                                             color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
+            # alt_col2.altair_chart(altair_intensity_plot)
+            # # Mechanical
+            # altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Daily Mechanical Load",
+            #                                             x="Acc (>2.7m/s):Q", y="Dec (>-2.7m/s):Q",
+            #                                             tooltip=["athlete_name:N", "Acc (>2.7m/s):Q", "Dec (>-2.7m/s):Q", "Max Speed (km/h):Q"],
+            #                                             color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
+            # alt_col2.altair_chart(altair_mechanical_plot)
+            # #Internal
+            # altair_internal_plot = plot_altair_scatter(df_altair_plot, title="Daily Internal Load",
+            #                                             x="Sprint distance (>22.5km/h):Q", y="HR (>85%):Q",
+            #                                             tooltip=["athlete_name:N", "Sprint distance (>22.5km/h):Q", "Sprint efforts (>22.5km/h):Q", "Max Speed (km/h):Q"],
+            #                                             color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
+            # alt_col2.altair_chart(altair_internal_plot)
 
 
 else:
