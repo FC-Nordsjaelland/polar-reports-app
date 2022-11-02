@@ -317,7 +317,10 @@ if authorization_code and submitted:
         elif account == 'W':
             alt_col1, alt_col2 = st.columns(2)
             df_altair_plot = df_plot_clean.reset_index()
+            st.write(df_altair_plot.columns)
             df_altair_plot.columns = [col.strip() for col in df_altair_plot.columns]
+            st.dataframe(df_altair_plot)
+            st.write(df_altair_plot.columns)
 
             altair_volume_plot = plot_altair_scatter(df_altair_plot, title="Daily Volume Load",
                                                     x="Total Distance:Q", y="HSR distance (>19km/h):Q",
