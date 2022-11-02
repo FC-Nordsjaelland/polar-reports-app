@@ -100,6 +100,7 @@ if chosen_team in ["Superliga", "RTD senior", "U19", "U17", 'U15']:
         daily_volume_plot_names = men_daily_volume_plot_names
         weekly_volume_parameters = men_weekly_volume_parameters
         weekly_volume_plot_names = men_weekly_volume_plot_names
+        st.write(daily_volume_plot_names, weekly_volume_plot_names)
         if chosen_team == 'Superliga':
             chosen_team_long = "FC Nordsjaelland"
         elif chosen_team == "U19":
@@ -114,6 +115,7 @@ elif chosen_team in ["Kvindeliga", 'Girls U18', "U16W"]:
         daily_volume_plot_names = women_daily_volume_plot_names
         weekly_volume_parameters = women_weekly_volume_parameters
         weekly_volume_plot_names = women_weekly_volume_plot_names
+        st.write(daily_volume_plot_names, weekly_volume_plot_names)
         if chosen_team == 'Kvindeliga':
             chosen_team_long = "FC Nordsjaelland Women"
         elif chosen_team == "Girls U18":
@@ -298,8 +300,8 @@ if authorization_code:
         alt_col2.altair_chart(altair_intensity_plot)
         # Mechanical
         altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
-                                                    x="Acc (>2.5m/s):Q", y="Dec (>-2.5m/s):Q",
-                                                    tooltip=["athlete_name:N", "Acc (>2.5m/s):Q", "Dec (>-2.5m/s):Q"],
+                                                    x="Acc (>2.7m/s):Q", y="Dec (>-2.7m/s):Q",
+                                                    tooltip=["athlete_name:N", "Acc (>2.7m/s):Q", "Dec (>-2.7m/s):Q"],
                                                     color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
         alt_col1.altair_chart(altair_mechanical_plot)
 

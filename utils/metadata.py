@@ -61,7 +61,7 @@ men_weekly_volume_parameters = [
                 'Sprints',
                 'Number of accelerations (-50.00 - -9.00 m/s²)',
                 'Number of accelerations (9.00 - 50.00 m/s²)',
-                'HR (>85%)',
+                'HR (>85%)'
         ]
 
 women_weekly_volume_parameters = [
@@ -73,7 +73,7 @@ women_weekly_volume_parameters = [
                 'Sprints',
                 'Number of accelerations (-50.00 - -2.70 m/s²)',
                 'Number of accelerations (2.70 - 50.00 m/s²)',
-                'HR (>85%)',
+                'HR (>85%)'
         ]
 
 men_weekly_volume_plot_names = [
