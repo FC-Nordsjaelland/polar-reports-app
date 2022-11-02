@@ -26,7 +26,6 @@ from polar_api import (clean_df,
                     get_player_session_ids, 
                     get_player_session_details_trimmed)
 
-
 from kitbag.plots.bar_charts import plot_physical_volume
 from kitbag.plots.tables import plot_table
 from kitbag.plots.altair_plot import plot_altair_scatter
@@ -206,6 +205,7 @@ if authorization_code and submitted:
 
         df_plot_clean = df_plot_clean[daily_volume_parameters]
         df_plot_clean.columns = daily_volume_plot_names
+
         ## --------- ROLLING 7 DAYS --------- ##
         convert_datetime_to_string = lambda dt: dt.strftime("%d-%m-%Y")
         activity_start_time = datetime.strptime(selected_date, '%d-%m-%Y').date()
@@ -225,8 +225,17 @@ if authorization_code and submitted:
 
         df_plot_previous = pd.concat(sessions_dfs_lst)
 
+        
+
         df_plot_previous.columns = daily_volume_plot_names
+        
+        df_max_speed = df_plot_previous.copy()
+        df_max_speed = df_max_speed['Max Speed (km/h)']
+        df_max_speed = df_max_speed.groupby(["position_name", "athlete_name"]).max()
+        df_plot_previous = df_plot_previous.drop("Max Speed (km/h)", axis=1)
         df_plot_clean_previous = df_plot_previous.groupby(["position_name", "athlete_name"]).sum().div(len(sessions_interval_dict))
+
+        df_plot_clean_previous = df_plot_clean_previous.join(df_max_speed, on=["position_name", "athlete_name"])
 
         # sort position
         df_plot_clean_previous = clean_df(df_plot_clean_previous, volume=True)
@@ -317,10 +326,7 @@ if authorization_code and submitted:
         elif account == 'W':
             alt_col1, alt_col2 = st.columns(2)
             df_altair_plot = df_plot_clean.reset_index()
-            st.write(df_altair_plot.columns)
             df_altair_plot.columns = [col.strip() for col in df_altair_plot.columns]
-            st.dataframe(df_altair_plot)
-            st.write(df_altair_plot.columns)
 
             altair_volume_plot = plot_altair_scatter(df_altair_plot, title="Daily Volume Load",
                                                     x="Total Distance:Q", y="HSR distance (>19km/h):Q",

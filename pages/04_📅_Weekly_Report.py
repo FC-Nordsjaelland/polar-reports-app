@@ -95,33 +95,31 @@ with st.sidebar.form("my_form"):
     submitted = st.form_submit_button("Submit")
 
 if chosen_team in ["Superliga", "RTD senior", "U19", "U17", 'U15']:
-        account = "M"
-        daily_volume_parameters = men_daily_volume_parameters
-        daily_volume_plot_names = men_daily_volume_plot_names
-        weekly_volume_parameters = men_weekly_volume_parameters
-        weekly_volume_plot_names = men_weekly_volume_plot_names
-        st.write(daily_volume_plot_names, weekly_volume_plot_names)
-        if chosen_team == 'Superliga':
-            chosen_team_long = "FC Nordsjaelland"
-        elif chosen_team == "U19":
-            chosen_team_long = "FC Nordsjaelland U19"
-        elif chosen_team == 'U17':
-            chosen_team_long = "FC Nordsjaelland U17"
-        elif chosen_team == 'U15':
-            chosen_team_long = "FC Nordsjaelland U15"
+    account = "M"
+    daily_volume_parameters = men_daily_volume_parameters
+    daily_volume_plot_names = men_daily_volume_plot_names
+    weekly_volume_parameters = men_weekly_volume_parameters
+    weekly_volume_plot_names = men_weekly_volume_plot_names
+    if chosen_team == 'Superliga':
+        chosen_team_long = "FC Nordsjaelland"
+    elif chosen_team == "U19":
+        chosen_team_long = "FC Nordsjaelland U19"
+    elif chosen_team == 'U17':
+        chosen_team_long = "FC Nordsjaelland U17"
+    elif chosen_team == 'U15':
+        chosen_team_long = "FC Nordsjaelland U15"
 elif chosen_team in ["Kvindeliga", 'Girls U18', "U16W"]:
-        account = 'W'
-        daily_volume_parameters = women_daily_volume_parameters
-        daily_volume_plot_names = women_daily_volume_plot_names
-        weekly_volume_parameters = women_weekly_volume_parameters
-        weekly_volume_plot_names = women_weekly_volume_plot_names
-        st.write(daily_volume_plot_names, weekly_volume_plot_names)
-        if chosen_team == 'Kvindeliga':
-            chosen_team_long = "FC Nordsjaelland Women"
-        elif chosen_team == "Girls U18":
-            chosen_team_long = "FC Nordsjaelland Girls U18"
-        elif chosen_team == "U16W":
-            chosen_team_long = "FC Nordsjaelland Girls U16"
+    account = 'W'
+    daily_volume_parameters = women_daily_volume_parameters
+    daily_volume_plot_names = women_daily_volume_plot_names
+    weekly_volume_parameters = women_weekly_volume_parameters
+    weekly_volume_plot_names = women_weekly_volume_plot_names
+    if chosen_team == 'Kvindeliga':
+        chosen_team_long = "FC Nordsjaelland Women"
+    elif chosen_team == "Girls U18":
+        chosen_team_long = "FC Nordsjaelland Girls U18"
+    elif chosen_team == "U16W":
+        chosen_team_long = "FC Nordsjaelland Girls U16"
 
 
 
@@ -279,8 +277,6 @@ if authorization_code:
         st.write("### **Weekly Physical Exploration**")
         alt_col1, alt_col2 = st.columns(2)
         df_altair_plot = df_plot_clean_previous.reset_index()
-        st.dataframe(df_altair_plot)
-        st.write(df_altair_plot.columns)
         # Set colors
         domain = list(colors.keys())
         range_  = list(colors.values())
