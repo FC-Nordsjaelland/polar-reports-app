@@ -277,6 +277,8 @@ if authorization_code:
         st.write("### **Weekly Physical Exploration**")
         alt_col1, alt_col2 = st.columns(2)
         df_altair_plot = df_plot_clean_previous.reset_index()
+        st.dataframe(df_altair_plot)
+        st.write(df_altair_plot.columns)
         # Set colors
         domain = list(colors.keys())
         range_  = list(colors.values())
