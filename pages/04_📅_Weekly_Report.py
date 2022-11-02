@@ -292,15 +292,15 @@ if authorization_code:
         alt_col1.altair_chart(altair_weekly_volume)
         # Intensity
         altair_intensity_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
-                                                    x="Sprint distance (>22.5km/h)", y="Sprint efforts (>22.5km/h)",
-                                                    tooltip=["athlete_name", "Sprint distance (>22.5km/h)", "Sprint efforts (>22.5km/h)"],
+                                                    x="Sprint distance (>22.5km/h):Q", y="Sprint efforts (>22.5km/h):Q",
+                                                    tooltip=["athlete_name:N", "Sprint distance (>22.5km/h):Q", "Sprint efforts (>22.5km/h):Q"],
                                                     color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
         alt_col2.altair_chart(altair_intensity_plot)
         # Mechanical
         altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Weekly Intensity Load",
-                                                    x="Acc (>2.5m/s)", y="Dec (>-2.5m/s)",
-                                                    tooltip=["athlete_name", "Acc (>2.5m/s)", "Dec (>-2.5m/s)"],
-                                                    color="position_name", width=600, height=600, label="athlete_name", size=200)
+                                                    x="Acc (>2.5m/s):Q", y="Dec (>-2.5m/s):Q",
+                                                    tooltip=["athlete_name:N", "Acc (>2.5m/s):Q", "Dec (>-2.5m/s):Q"],
+                                                    color="position_name:N", width=600, height=600, label="athlete_name:N", size=200)
         alt_col1.altair_chart(altair_mechanical_plot)
 
 

@@ -43,8 +43,8 @@ women_daily_volume_plot_names = [
                 "HSR distance (>19km/h)",
                 "Sprint distance (>22.5km/h)", 
                 "Sprint efforts (>22.5km/h)",
-                "Acc (>3m/s)", 
-                "Dec (>-3m/s)",
+                "Acc (>2.7m/s)", 
+                "Dec (>-2.7m/s)",
                 "HR (>85%)", 
                 "Max Speed (km/h)"
                 ]
@@ -95,8 +95,8 @@ women_weekly_volume_plot_names = [
                 "HSR distance (>19km/h)",
                 "Sprint distance (>22.5km/h)", 
                 "Sprint efforts (>22.5km/h)",
-                "Acc (>2.5m/s)", 
-                "Dec (>-2.5m/s)",
+                "Acc (>2.7m/s)", 
+                "Dec (>-2.7m/s)",
                 "HR >85% (min.)"
                 ]
 

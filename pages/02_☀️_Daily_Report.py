@@ -333,8 +333,8 @@ if authorization_code and submitted:
             # alt_col2.altair_chart(altair_intensity_plot)
             # Mechanical
             altair_mechanical_plot = plot_altair_scatter(df_altair_plot, title="Daily Mechanical Load",
-                                                        x="Acc (>3m/s):Q", y="Dec (>-3m/s):Q",
-                                                        tooltip=["athlete_name:N", "Acc (>3m/s):Q", "Dec (>-3m/s):Q", "Max Speed (km/h):Q"],
+                                                        x="Acc (>2.7m/s):Q", y="Dec (>-2.7m/s):Q",
+                                                        tooltip=["athlete_name:N", "Acc (>2.7m/s):Q", "Dec (>-2.7m/s):Q", "Max Speed (km/h):Q"],
                                                         color="position_name:N", width=600, height=600, label="athlete_name:N", size=100)
             alt_col2.altair_chart(altair_mechanical_plot)
             # Internal
