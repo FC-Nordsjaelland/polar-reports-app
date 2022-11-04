@@ -207,8 +207,8 @@ if authorization_code and submitted:
 
     current = os.path.dirname(os.path.realpath(__file__))
     parent = os.path.dirname(current)
-    template = pd.read_excel(parent + "/utils/templates/CSV_template.xlsx", skiprows=1)
-    girls_template = pd.read_csv(parent + "/utils/templates/CSV_girls_template.csv", delimiter=";")
+    template = pd.read_excel("utils/templates/CSV_template.xlsx", skiprows=1)
+    girls_template = pd.read_csv("utils/templates/CSV_girls_template.csv", delimiter=";")
 
     if chosen_team in ["Superliga", "RTD senior", "U19", "U17", 'U15']:
             account = "M"
