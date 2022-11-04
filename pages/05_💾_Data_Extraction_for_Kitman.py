@@ -207,6 +207,7 @@ if authorization_code and submitted:
 
     current = os.path.dirname(os.path.realpath(__file__))
     parent = os.path.dirname(current)
+    st.write(current, parent)
     template = pd.read_excel("utils/templates/CSV_template.xlsx", skiprows=1)
     girls_template = pd.read_csv("utils/templates/CSV_girls_template.csv", delimiter=";")
 
