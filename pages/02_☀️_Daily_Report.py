@@ -31,13 +31,13 @@ from kitbag.plots.tables import plot_table
 from kitbag.plots.altair_plot import plot_altair_scatter
 
 
-#%%
 st.set_page_config(page_title="Daily Report", page_icon="☀️", layout="wide")
 st.sidebar.markdown("## ☀️ Daily Report")
 
 client_id = st.secrets['client_id']
 client_secret = st.secrets['client_secret']
 
+# Polar authorization
 authorize_url = 'https://auth.polar.com/oauth/authorize'
 access_token_url = 'https://auth.polar.com/oauth/token'
 authorize_params = {'client_id': client_id,
@@ -50,11 +50,9 @@ base64_bytes = base64.b64encode(message_bytes)
 base64_encoding = base64_bytes.decode('ascii')
 headers = {'Authorization': 'Basic '+ base64_encoding}
 r = requests.get(authorize_url, params=authorize_params)
-
-# st.write(r.history[0].url)
-# webbrowser.open(r.history[0].url, new=2)
 link = r.history[0].url
 
+# Helpers
 def get_all_player_session_details_trimmed(player_session_ids):
     player_data_id_dct = {}
     for player_id, player_session_id in player_session_ids.items():
@@ -63,10 +61,8 @@ def get_all_player_session_details_trimmed(player_session_ids):
             player_data)
         df_session_player.insert(loc=0, column='player_id', value=player_id)
         player_data_id_dct[player_id] = df_session_player
-    
     df_all_players = pd.concat(list(player_data_id_dct.values())).reset_index(drop=True)
     return df_all_players
-
 
 def session_data(selected_session_id, selected_session_name):
     session = api.get_players_session_data(tokens, session_id = selected_session_id)
@@ -76,10 +72,9 @@ def session_data(selected_session_id, selected_session_name):
     session_data = get_all_player_session_details_trimmed(player_session_ids)
     session_data = preprocess(session_data, date_time, players, selected_session_name, account)
     session_data = session_data.drop(["Session name", "Start time"], axis=1)
-
     return session_data
-#%%
 
+# Sidebar form
 with st.sidebar.form("my_form"):
     chosen_team = st.selectbox("Choose Account", options=["Superliga", "RTD senior", "U19", "U17", 'U15', "Kvindeliga", 'Girls U18', "U16W"], index=3)
     activity_date = st.date_input("Pick training date", value=datetime.today())
@@ -88,11 +83,19 @@ with st.sidebar.form("my_form"):
     st.cache()
     authorization_code = st.text_input('Input the Polar authentication token below')
     submitted = st.form_submit_button("Submit")
-# with st.sidebar.form(key='my_form'):
-#     st.markdown("Open the [link](%s) and copy the code" % link, unsafe_allow_html=True)
-#     authorization_code = st.text_input('Input the Polar authentication token below')
-#     st.form_submit_button()
 
+# Date formatting
+def format_date(activity_date):
+    x = str(activity_date).split("-")
+    year = x[0]
+    month = x[1]
+    day = x[2]
+    return day + "-" + month + "-" + year
+    
+selected_date = format_date(activity_date=activity_date)
+
+# Fetching the parameters for corresponding teams
+# mapping a long name onto an account name (for graphs, colors)
 if chosen_team in ["Superliga", "RTD senior", "U19", "U17", 'U15']:
         account = "M"
         daily_volume_parameters = men_daily_volume_parameters
@@ -117,22 +120,18 @@ elif chosen_team in ["Kvindeliga", 'Girls U18', "U16W"]:
             chosen_team_long = "FC Nordsjaelland Girls U16"
 
 
-x = str(activity_date).split("-")
-year = x[0]
-month = x[1]
-day = x[2]
-selected_date = day + "-" + month + "-" + year
-
-
 if authorization_code and submitted:
     st.cache()
     access_token_data = {'grant_type': 'authorization_code',
                             'code': authorization_code}
     r_post = requests.post(access_token_url,
-    data=access_token_data,
-    headers=headers)
+                            data=access_token_data,
+                            headers=headers)
     tokens = r_post.json()
+
+    #setup API
     api = POLAR_API(client_id, client_secret, team=chosen_team)
+
     try:
         team_info = api.get_teams_info(tokens)
     except:
@@ -143,26 +142,24 @@ if authorization_code and submitted:
     sessions_meta = api.get_session(tokens, team_id=team_id, date=selected_date)
     team_players = api.get_team_players(tokens, team_id=team_id)
     players = extract_players(team_players)
+
     try:
         sessions_dict = get_day_sessions_name_id_dict(sessions_meta)
     except:
         st.sidebar.markdown("### Session hasn't been named yet. Please name the session in the Polar system.")
         st.stop()
-    inv_sessions_dict = {v: k for k, v in sessions_dict.items()}#
-    # selected_session_name = st.sidebar.multiselect("Pick training sessions",
-    #                                           options=inv_sessions_dict.keys())
-    # selected_session_name = st.radio("Available training sessions")
-    
+
+    # dictionary: key - Session name, value - Session ID
+    inv_sessions_dict = {v: k for k, v in sessions_dict.items()}
    
-    #for simplicity
     if len(list(inv_sessions_dict)) == 0:
         st.sidebar.markdown("### No sessions for that day!")
         st.stop()
     else:
-        # df_sessions_day  = pd.DataFrame(inv_sessions_dict.keys(), columns=["List of training sessions"])
-        # df_sessions_day = df_sessions_day.rename(columns={"0":"List of training sessions"})
-        
 
+        # displaying the day's sessions on the sidebar
+        # dataframe that holds an index (1 for the first session in a day, 2 for the second (if exists) etc)
+        # and a column "List of training sessions" that is of a format "Sessions name (session date, session time)"
         time_map_session = []
         for i in list(inv_sessions_dict.keys()):
             time_map_session.append([i,i.split("(")[-1].split(',')[-1].split("-")[0].strip()[0:2], i.split("(")[-1].split(',')[-1].split("-")[0].strip()[3:]])
@@ -174,16 +171,12 @@ if authorization_code and submitted:
         df_sessions_day.index += 1 
         st.sidebar.dataframe(df_sessions_day)
 
+        # filtering the session by the number
         training_sessions_lst = list(df_sessions_day['List of training sessions'])
         no_of_session = int(no_of_session) - 1
-        selected_session_name = training_sessions_lst[no_of_session]
-        # st.sidebar.dataframe(df_sessions_day)
-        # session_id = sessions_meta['data'][-(int(no_of_session))]['id']
-
-        # selected_session_name = list(inv_sessions_dict)[0]
+        selected_session_name = training_sessions_lst[no_of_session] #first session in a day = 1, second = 2, etc
         
         selected_session_id = inv_sessions_dict[selected_session_name]
-        # st.write(selected_session_id)
         data = session_data(selected_session_id, selected_session_name)
         df_plot_clean = clean_df(data, volume=True)
 
@@ -195,6 +188,7 @@ if authorization_code and submitted:
         df_volume_table.iloc[:, :-1] = df_volume_table.iloc[:, :-1].astype(int, errors="ignore")
         df_volume_table.iloc[:,-1] = df_volume_table.iloc[:,-1].round(1)
 
+        #adding the athlete_name column as the first index
         daily_volume_parameters_df_volume = daily_volume_parameters.copy()
         daily_volume_parameters_df_volume.insert(0, 'athlete_name')
         daily_volume_plot_names_df_volume = daily_volume_plot_names.copy()
