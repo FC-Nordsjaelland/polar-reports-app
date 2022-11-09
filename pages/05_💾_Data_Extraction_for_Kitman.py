@@ -229,7 +229,11 @@ if authorization_code and submitted:
     team_players = api.get_team_players(tokens, team_id=team_id)
     players = extract_players(team_players)
 
-    sessions_dict = get_day_sessions_name_id_dict(sessions_meta)
+    try:
+        sessions_dict = get_day_sessions_name_id_dict(sessions_meta)
+    except:
+        st.sidebar.markdown("### Session hasn't been named yet. Please name the session in the Polar system.")
+        st.stop()
     inv_sessions_dict = {v: k for k, v in sessions_dict.items()}
 
 
