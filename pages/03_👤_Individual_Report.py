@@ -11,12 +11,6 @@ st.sidebar.markdown("## 👤 Individual Report")
 st.markdown("## 👀 Coming soon")
 client_id = st.secrets['client_id']
 client_secret = st.secrets['client_secret']
-players = st.secrets['players']
-usernames = st.secrets['usernames']
-
-username_dict = dict(zip(players, usernames))
-
-st.write(username_dict)
 
 
 # authorize_url = 'https://auth.polar.com/oauth/authorize'
