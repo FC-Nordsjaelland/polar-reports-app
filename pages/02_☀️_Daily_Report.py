@@ -37,6 +37,7 @@ st.sidebar.markdown("## ☀️ Daily Report")
 client_id = st.secrets['client_id']
 client_secret = st.secrets['client_secret']
 
+
 # Polar authorization
 authorize_url = 'https://auth.polar.com/oauth/authorize'
 access_token_url = 'https://auth.polar.com/oauth/token'
