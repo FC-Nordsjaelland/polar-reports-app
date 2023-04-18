@@ -4,7 +4,7 @@ matplotlib==3.5.2
 altair==4.2.0
 pandas==1.4.2
 numpy==1.22.4
-polar_api==0.0.9
 openpyxl==3.0.3
-kitbag==0.0.8
 isodate==0.6.1
+git+ssh://git@github.com/FC-Nordsjaelland/polar-api.git # polar_api==0.0.9
+git+ssh://git@github.com/FC-Nordsjaelland/kitbag.git # kitbag==0.0.8
