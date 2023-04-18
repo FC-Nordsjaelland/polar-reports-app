@@ -5,6 +5,7 @@ __pycache__/
 Pipfile
 .DS_Store
 *.json
+.streamlit/
 
 # C extensions
 *.so
