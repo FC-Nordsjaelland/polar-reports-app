@@ -1,11 +1,25 @@
-from PIL import Image
-import streamlit as st
+import sys
 
+import streamlit as st
+from PIL import Image
+
+from utils.cleaning2 import init_api
 
 st.set_page_config(page_title="Polar Reports", page_icon="📝", layout="wide")
 
 st.markdown("# Polar Reports")
 st.sidebar.markdown("# 📝 Polar Reports")
+
+
+# Login to Polar
+client_id = st.secrets["POLAR_CLIENT_ID"]
+client_secret = st.secrets["POLAR_CLIENT_SECRET"]
+redirect_uri = st.secrets["POLAR_REDIRECT_URI"]
+
+login_button = st.button(label="Login")
+if login_button:
+    client = init_api(client_id, client_secret, redirect_uri)
+    sys.stdin = st.text_input(label="Authentication Code")
 
 # Introduction
 st.markdown(

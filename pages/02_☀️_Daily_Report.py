@@ -9,59 +9,46 @@ import requests
 import streamlit as st
 from dateutil import parser
 from highlight_text import fig_text
-from matplotlib.backends.backend_pdf import PdfPages
-
-file = Path(__file__).resolve()
-root = file.parents[1]
-sys.path.append(str(root))
-
 from kitbag.plots.altair_plot import plot_altair_scatter
 from kitbag.plots.bar_charts import plot_physical_volume
 from kitbag.plots.tables import plot_table
-from polar_api import (PolarTeamproAPI, clean_df, extract_players,
-                       extract_team_id, get_day_sessions_name_id_dict,
-                       get_interval_sessions_name_id_dict,
-                       get_player_session_details_trimmed,
-                       get_player_session_ids, preprocess)
+from matplotlib.backends.backend_pdf import PdfPages
+from polar_api import (
+    clean_df,
+    extract_players,
+    extract_team_id,
+    get_day_sessions_name_id_dict,
+    get_interval_sessions_name_id_dict,
+    get_player_session_details_trimmed,
+    get_player_session_ids,
+    preprocess,
+)
 
-from utils.metadata import (men_daily_volume_parameters,
-                            men_daily_volume_plot_names,
-                            women_daily_volume_parameters,
-                            women_daily_volume_plot_names)
+from utils.cleaning2 import init_api
+from utils.metadata import (
+    men_daily_volume_parameters,
+    men_daily_volume_plot_names,
+    women_daily_volume_parameters,
+    women_daily_volume_plot_names,
+)
 
 st.set_page_config(page_title="Daily Report", page_icon="☀️", layout="wide")
 st.sidebar.markdown("## ☀️ Daily Report")
 
-
+# Polar authorization
+# Login to Polar
 client_id = st.secrets["POLAR_CLIENT_ID"]
 client_secret = st.secrets["POLAR_CLIENT_SECRET"]
 redirect_uri = st.secrets["POLAR_REDIRECT_URI"]
 
-
-# Polar authorization
-# authorize_url = "https://auth.polar.com/oauth/authorize"
-# access_token_url = "https://auth.polar.com/oauth/token"
-# authorize_params = {
-#     "client_id": client_id,
-#     "response_type": "code",
-#     "scope": "team_read",
-# }
-
-# encoding = client_id + ":" + client_secret
-# message_bytes = encoding.encode("ascii")
-# base64_bytes = base64.b64encode(message_bytes)
-# base64_encoding = base64_bytes.decode("ascii")
-# headers = {"Authorization": "Basic " + base64_encoding}
-# r = requests.get(authorize_url, params=authorize_params)
-# link = r.history[0].url
-client = PolarTeamproAPI(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
+client = init_api(client_id, client_secret, redirect_uri)
 
 
 # Helpers
-def get_all_player_session_details_trimmed(player_session_ids):
+def get_all_player_session_details_trimmed(player_session_ids: dict) -> pd.DataFrame:
     player_data_id_dct = {}
     for player_id, player_session_id in player_session_ids.items():
-        player_data = api.get_trimmed_player_session_details(tokens, player_session_id)
+        player_data = client.get_player_training_session_trimmed(player_session_id)
         df_session_player = get_player_session_details_trimmed(player_data)
         df_session_player.insert(loc=0, column="player_id", value=player_id)
         player_data_id_dct[player_id] = df_session_player
@@ -70,8 +57,7 @@ def get_all_player_session_details_trimmed(player_session_ids):
 
 
 def session_data(selected_session_id, selected_session_name):
-    session = api.get_players_session_data(tokens, session_id=selected_session_id)
-    date = session["data"]["record_start_time"]
+    session = client.get_player_training_session_detail(selected_session_id)
     date_time = parser.parse(session["data"]["record_start_time"])
     player_session_ids = get_player_session_ids(session)
     session_data = get_all_player_session_details_trimmed(player_session_ids)
@@ -100,9 +86,6 @@ with st.sidebar.form("my_form"):
     )
     activity_date = st.date_input("Pick training date", value=datetime.today())
     no_of_session = st.selectbox("Session number", ["1", "2", "3", "4"])
-    st.markdown("Open the [link](%s) and copy the code" % link, unsafe_allow_html=True)
-    st.cache()
-    authorization_code = st.text_input("Input the Polar authentication token below")
     submitted = st.form_submit_button("Submit")
 
 
@@ -143,24 +126,18 @@ elif chosen_team in ["Kvindeliga", "Girls U18", "U16W"]:
         chosen_team_long = "FC Nordsjaelland Girls U16"
 
 
-if authorization_code and submitted:
-    st.cache()
-    access_token_data = {"grant_type": "authorization_code", "code": authorization_code}
-    r_post = requests.post(access_token_url, data=access_token_data, headers=headers)
-    tokens = r_post.json()
-
-    # setup API
-    api = POLAR_API(client_id, client_secret, team=chosen_team)
-
+if submitted:
     try:
-        team_info = api.get_teams_info(tokens)
+        team_info = client.get_team()
     except:
         st.sidebar.markdown("### Copy and paste a new token")
         st.stop()
 
     team_id = extract_team_id(team_info, chosen_team)
-    sessions_meta = api.get_session(tokens, team_id=team_id, date=selected_date)
-    team_players = api.get_team_players(tokens, team_id=team_id)
+    sessions_meta = client.get_team_training_session(
+        team_id=team_id, date=selected_date
+    )
+    team_players = client.get_team_details(team_id=team_id)
     players = extract_players(team_players)
 
     try:
@@ -245,7 +222,7 @@ if authorization_code and submitted:
             previous_activity_start_time
         )
 
-        sessions_data = api.get_sessions(
+        sessions_data = client.get_sessions(
             tokens=tokens,
             team_id=team_id,
             dates=[previous_activity_start_time, activity_start_time],

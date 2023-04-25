@@ -3,7 +3,6 @@ import streamlit as st
 from polar_api import PolarTeamproAPI
 
 
-@st.cache
 def init_api(client_id, client_secret, redirect_uri):
     client = PolarTeamproAPI(
         client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri
