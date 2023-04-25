@@ -58,7 +58,10 @@ encoding = client_id + ":" + client_secret
 message_bytes = encoding.encode("ascii")
 base64_bytes = base64.b64encode(message_bytes)
 base64_encoding = base64_bytes.decode("ascii")
-headers = {"Authorization": "Basic " + base64_encoding}
+headers = {
+    "Authorization": "Basic " + base64_encoding,
+    "Content-Type": "application/x-www-form-urlencoded",
+}
 r = requests.get(authorize_url, params=authorize_params)
 link = r.history[0].url
 
@@ -148,10 +151,13 @@ elif chosen_team in ["Kvindeliga", "Girls U18", "U16W"]:
     elif chosen_team == "U16W":
         chosen_team_long = "FC Nordsjaelland Girls U16"
 
-
 if authorization_code and submitted:
     st.cache()
-    access_token_data = {"grant_type": "authorization_code", "code": authorization_code}
+    access_token_data = {
+        "grant_type": "authorization_code",
+        "code": authorization_code,
+        "redirect_uri": "http://localhost:8080",
+    }
     r_post = requests.post(access_token_url, data=access_token_data, headers=headers)
     tokens = r_post.json()
 
