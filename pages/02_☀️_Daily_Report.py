@@ -140,6 +140,8 @@ if chosen_team in ["Superliga", "RTD senior", "U19", "U17", "U15"]:
         chosen_team_long = "FC Nordsjaelland U17"
     elif chosen_team == "U15":
         chosen_team_long = "FC Nordsjaelland U15"
+    elif chosen_team == "RTD senior":
+        chosen_team_long = "RTD senior"
 elif chosen_team in ["Kvindeliga", "Girls U18", "U16W"]:
     account = "W"
     daily_volume_parameters = women_daily_volume_parameters
