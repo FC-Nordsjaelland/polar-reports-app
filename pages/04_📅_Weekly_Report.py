@@ -62,7 +62,10 @@ encoding = client_id + ":" + client_secret
 message_bytes = encoding.encode("ascii")
 base64_bytes = base64.b64encode(message_bytes)
 base64_encoding = base64_bytes.decode("ascii")
-headers = {"Authorization": "Basic " + base64_encoding}
+headers = {
+    "Authorization": "Basic " + base64_encoding,
+    "Content-Type": "application/x-www-form-urlencoded",
+}
 r = requests.get(authorize_url, params=authorize_params)
 
 # st.write(r.history[0].url)
@@ -169,7 +172,11 @@ date2 = transform_date(date_range[1])
 
 if authorization_code:
     st.cache()
-    access_token_data = {"grant_type": "authorization_code", "code": authorization_code}
+    access_token_data = {
+        "grant_type": "authorization_code",
+        "code": authorization_code,
+        "redirect_uri": "http://localhost:8080",
+    }
     r_post = requests.post(access_token_url, data=access_token_data, headers=headers)
     tokens = r_post.json()
     api = POLAR_API(client_id, client_secret, team=chosen_team)
