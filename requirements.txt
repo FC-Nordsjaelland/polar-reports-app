@@ -4,7 +4,7 @@ matplotlib==3.5.2
 altair==4.2.0
 pandas==1.5.3
 numpy==1.22.4
-polar_api==1.0.0
+polar_api==1.0.2
 openpyxl==3.0.3
 kitbag==0.0.8
 isodate==0.6.1
