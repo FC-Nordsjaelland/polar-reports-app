@@ -5,8 +5,8 @@ import streamlit as st
 from polar_api.PolarAPI import PolarTeamproAPI
 
 # Page config
-st.set_page_config(page_title="Database Upload", page_icon="💾", layout="wide")
-st.markdown("# 💾 Database Upload")
+st.set_page_config(page_title="Database", page_icon="💾", layout="wide")
+st.markdown("# 💾 Database")
 
 # Set variables
 teams = ["U17", "U15", "U14", "Girls U18", "U16W", "U14W"]
@@ -67,7 +67,8 @@ if auth_form_submit:
         )
 
         # User select sessions to be inserted
-        with st.form("upload_form"):
+        with st.form("database_form"):
+            # Select sessions
             session_dict = {
                 session["id"]: session["created"] for session in sessions["data"]
             }
@@ -76,7 +77,10 @@ if auth_form_submit:
                 options=list(session_dict.values()),
                 default=list(session_dict.values()),
             )
-            upload_form_submit = st.form_submit_button("Upload sessions")
+            # Select upload update or delete
+            st.radio(label="Select action", options=["Upload", "Update", "Delete"])
+            # Submit
+            database_form_submit = st.form_submit_button("Upload sessions")
 
     except AttributeError:
         st.warning("Please authenticate again!")  # , icon="⚠️")
