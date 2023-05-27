@@ -8,3 +8,4 @@ polar_api==1.0.0
 openpyxl==3.0.7
 kitbag==0.0.8
 isodate==0.6.1
+beautifulsoup4==4.12.2
