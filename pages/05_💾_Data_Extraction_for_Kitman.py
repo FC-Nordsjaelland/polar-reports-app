@@ -353,6 +353,7 @@ with st.form(key="my_form"):
             "U15",
             "Girls U19",
             "U16W",
+            "U14W",
         ],
     )
     activity_date = st.date_input(
@@ -385,7 +386,7 @@ if authorization_code and submitted:
 
     if chosen_team in ["Superliga", "RTD senior", "U19", "U17", "U15"]:
         account = "M"
-    elif chosen_team in ["Kvindeliga", "Girls U19", "U16W"]:
+    elif chosen_team in ["Kvindeliga", "Girls U19", "U16W", "U14W"]:
         account = "W"
 
     api = POLAR_API(client_id, client_secret, team=chosen_team)
