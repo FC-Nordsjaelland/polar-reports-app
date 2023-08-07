@@ -351,7 +351,7 @@ with st.form(key="my_form"):
             "U19",
             "U17",
             "U15",
-            "Girls U18",
+            "Girls U19",
             "U16W",
         ],
     )
@@ -385,7 +385,7 @@ if authorization_code and submitted:
 
     if chosen_team in ["Superliga", "RTD senior", "U19", "U17", "U15"]:
         account = "M"
-    elif chosen_team in ["Kvindeliga", "Girls U18", "U16W"]:
+    elif chosen_team in ["Kvindeliga", "Girls U19", "U16W"]:
         account = "W"
 
     api = POLAR_API(client_id, client_secret, team=chosen_team)
@@ -452,8 +452,8 @@ if authorization_code and submitted:
         )
         csv = convert_df(session_data)
 
-        if chosen_team == "Girls U18":
-            chosen_team = "GirlsU18"
+        if chosen_team == "Girls U19":
+            chosen_team = "GirlsU19"
         elif chosen_team == "RTD senior":
             chosen_team == "RTDsenior"
 
